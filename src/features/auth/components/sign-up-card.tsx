@@ -22,27 +22,22 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-
-const formSchema = z.object({
-  name: z.string().trim().min(1, "Este campo é obrigatório"),
-  email: z.string().email("Email inválido"),
-  password: z
-    .string()
-    .min(8, "Este campo precisa ter pelo menos 8 caractéres")
-    .max(256, "Este campo precisa ter no máximo 256 caractéres"),
-});
+import { registerSchema } from "../schemas";
+import { useRegister } from "../api/use-register";
 
 export const SignUpCard = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { mutate } = useRegister();
+
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log({ values });
+  const onSubmit = (values: z.infer<typeof registerSchema>) => {
+    mutate({ json: values })
   };
   return (
     <Card className="w-full h-full md:w-[487px] border-none shadow-none">
@@ -50,16 +45,6 @@ export const SignUpCard = () => {
         <CardTitle className="text-2xl">
           Crie uma conta para continuar
         </CardTitle>
-        <CardDescription>
-          Ao criar uma conta, você concorda com nossos{" "}
-          <Link className="text-sky-700" href="/terms-and-service">
-            termos e serviços
-          </Link>{" "}
-          e{" "}
-          <Link className="text-sky-700" href="/privacy-policy">
-            política de privacidade
-          </Link>.
-        </CardDescription>
       </CardHeader>
       <div className="px-7">
         <DottedSeparator />
@@ -147,9 +132,12 @@ export const SignUpCard = () => {
       <div className="px-7">
         <DottedSeparator />
       </div>
-      <CardContent className="p-7 flex items-center justify-center">
+      <CardContent className="p-4 flex items-center justify-center">
         <p className="text-sm font-medium text-muted-foreground">
-          Já possui tem uma conta? <Link href="/sign-in" className="text-sky-700">Entre nela</Link>
+          Já possui tem uma conta?{" "}
+          <Link href="/sign-in" className="text-sky-700">
+            Entre nela
+          </Link>
         </p>
       </CardContent>
     </Card>
