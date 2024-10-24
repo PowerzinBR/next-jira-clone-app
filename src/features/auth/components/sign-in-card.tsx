@@ -87,7 +87,7 @@ export const SignInCard = () => {
               )}
             />
             <Button disabled={false} size="lg" className="w-full">
-              Criar sua conta
+              Entre em sua conta
             </Button>
           </form>
         </Form>
