@@ -11,9 +11,9 @@ export const useCreateWorkspace = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
-    mutationFn: async (json) => {
+    mutationFn: async (form) => {
       const response = await client.api.workspaces["$post"]({
-        json: json.json,
+        form: form.form,
       });
       if (!response.ok) {
         throw new Error("Failed to create workspace");
