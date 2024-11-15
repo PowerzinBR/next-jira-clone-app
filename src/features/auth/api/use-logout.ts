@@ -24,6 +24,7 @@ export const useLogout = () => {
       toast.success("Você desconectou de sua conta.");
       router.refresh();
       queryClient.invalidateQueries({ queryKey: ["current"] });
+      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
     },
     onError: () => {
       toast.error("Falha ao desconectar de sua conta.");
