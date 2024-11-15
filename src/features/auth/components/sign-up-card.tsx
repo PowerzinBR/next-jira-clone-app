@@ -1,9 +1,11 @@
+"use client";
+
 import { z } from "zod";
+import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 
 import { DottedSeparator } from "@/components/dotted-separator";
 import { Button } from "@/components/ui/button";
@@ -26,7 +28,7 @@ import { registerSchema } from "../schemas";
 import { useRegister } from "../api/use-register";
 
 export const SignUpCard = () => {
-  const { mutate } = useRegister();
+  const { mutate, isPending } = useRegister();
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -60,6 +62,7 @@ export const SignUpCard = () => {
                   <FormControl>
                     <Input
                       {...field}
+                      disabled={isPending}
                       type="text"
                       placeholder="Escreva o seu nome"
                     />
@@ -76,6 +79,7 @@ export const SignUpCard = () => {
                   <FormControl>
                     <Input
                       {...field}
+                      disabled={isPending}
                       type="email"
                       placeholder="Escreva o seu e-mail"
                     />
@@ -92,6 +96,7 @@ export const SignUpCard = () => {
                   <FormControl>
                     <Input
                       {...field}
+                      disabled={isPending}
                       type="password"
                       placeholder="Escreva a sua senha"
                     />
@@ -100,8 +105,8 @@ export const SignUpCard = () => {
                 </FormItem>
               )}
             />
-            <Button disabled={false} size="lg" className="w-full">
-              Entrar em sua conta
+            <Button disabled={isPending} size="lg" className="w-full">
+              Crie sua conta
             </Button>
           </form>
         </Form>
@@ -111,7 +116,7 @@ export const SignUpCard = () => {
       </div>
       <CardContent className="p-7 flex flex-col gap-y-4">
         <Button
-          disabled={false}
+          disabled={isPending}
           variant="secondary"
           size="lg"
           className="w-full"
@@ -120,7 +125,7 @@ export const SignUpCard = () => {
           Continue com o Google
         </Button>
         <Button
-          disabled={false}
+          disabled={isPending}
           variant="secondary"
           size="lg"
           className="w-full"
