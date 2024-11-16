@@ -1,12 +1,13 @@
 "use client";
 
 import { z } from "zod";
-import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { useRef } from "react";
-import Image from "next/image";
-import { ArrowLeftIcon, ImageIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { ArrowLeftIcon, CopyIcon, ImageIcon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import Image from "next/image";
 
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -28,6 +29,7 @@ import { Workspace } from "../types";
 import { updateWorkspaceSchema } from "../schema";
 import { useUpdateWorkspace } from "../api/use-update-workspace";
 import { useDeleteWorkspace } from "../api/use-delete-workspace";
+import { useResetInviteCode } from "../api/use-reset-invite-code";
 
 interface EditWorkspaceFormProps {
   onCancel?: () => void;
@@ -38,10 +40,19 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
   const router = useRouter();
   const { mutate, isPending } = useUpdateWorkspace();
   const { mutate: deleteWorkspace, isPending: isDeletingWorkspace } = useDeleteWorkspace();
+  const { mutate: resetInviteCode, isPending: isResettingInviteCode } =
+    useResetInviteCode();
+
 
   const [DeleteDialog, confirmDelete] = useConfirm(
     "Excluir um espaço de trabalho",
     "Esta ação é irreversível e não pode se desfazer",
+    "destructive"
+  );
+
+  const [ResetDialog, confirmReset] = useConfirm(
+    "Gerar um novo código de convite",
+    "Esta ação irá gerar um novo código, tornando os códigos de convite anteriores inválidos.",
     "destructive"
   );
 
@@ -69,6 +80,23 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
      });
   }
 
+  const handleResetInviteCode = async () => {
+    const ok = await confirmReset();
+
+    if (!ok) return;
+
+    resetInviteCode(
+      {
+        param: { workspaceId: initialValues.$id },
+      },
+      {
+        onSuccess: () => {
+          router.refresh();
+        },
+      }
+    );
+  };
+
   const onSubmit = (values: z.infer<typeof updateWorkspaceSchema>) => {
     const finalValues = {
       ...values,
@@ -94,9 +122,21 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
     }
   };
 
+  const fullInviteLink =
+    typeof window !== "undefined"
+      ? `${window.location.origin}/workspaces/${initialValues.$id}/join/${initialValues.inviteCode}`
+      : "";
+
+
+  const handleCopyInviteLink = () => {
+    navigator.clipboard.writeText(fullInviteLink)
+      .then(() => toast.success("Código de convite copiado."))
+  }
+
   return (
     <div className="flex flex-col gap-y-4">
       <DeleteDialog />
+      <ResetDialog />
       <Card className="w-full h-full border-none shadow-none">
         <CardHeader className="flex flex-row items-center gap-x-4 p-7 space-y-0">
           <Button
@@ -235,12 +275,46 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
       <Card className="w-full h-full border-none shadow-none">
         <CardContent className="p-7">
           <div className="flex flex-col">
-            <h3 className="font-bold">
-              Zona de Perigo
-            </h3>
+            <h3 className="font-bold">Convites</h3>
             <p className="text-sm text-muted-foreground">
-              Excluindo um espaço de trabalho é uma ação irreversível e vai remover qualquer informação associada.
+              Use o código de convite para adicionar membros em seu espaço de
+              trabalho
             </p>
+            <div className="mt-4">
+              <div className="flex items-center gap-x-2">
+                <Input disabled value={fullInviteLink} />
+                <Button
+                  onClick={handleCopyInviteLink}
+                  variant="secondary"
+                  className="size-12"
+                >
+                  <CopyIcon className="size-5" />
+                </Button>
+              </div>
+            </div>
+            <DottedSeparator className="py-7" />
+            <Button
+              className="mt-6 w-fit ml-auto"
+              size="sm"
+              variant="destructive"
+              type="button"
+              disabled={isPending || isResettingInviteCode}
+              onClick={handleResetInviteCode}
+            >
+              Gerar novo código de convite
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+      <Card className="w-full h-full border-none shadow-none">
+        <CardContent className="p-7">
+          <div className="flex flex-col">
+            <h3 className="font-bold">Zona de Perigo</h3>
+            <p className="text-sm text-muted-foreground">
+              Excluindo um espaço de trabalho é uma ação irreversível e vai
+              remover qualquer informação associada.
+            </p>
+            <DottedSeparator className="py-7" />
             <Button
               className="mt-6 w-fit ml-auto"
               size="sm"
