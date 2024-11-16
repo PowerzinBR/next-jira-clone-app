@@ -31,7 +31,7 @@ import { useConfirm } from "@/hooks/use-confirm";
 export const MembersList = () => {
   const workspaceId = useWorkspaceId();
   const [ConfirmDialog, confirm] = useConfirm(
-    "Excluír membro",
+    "Excluir membro",
     "Este membro vai ser excluído do espaço de trabalho",
     "destructive"
   );
