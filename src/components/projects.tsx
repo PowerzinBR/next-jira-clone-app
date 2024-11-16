@@ -8,11 +8,13 @@ import { cn } from "@/lib/utils";
 import { useGetProjects } from "@/features/projects/api/use-get-projects";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
+import { useCreateProjectModal } from "@/features/projects/hooks/use-create-project-modal";
 
 export const Projects = () => {
   const pathname = usePathname();
   const workspaceId = useWorkspaceId();
 
+  const { open } = useCreateProjectModal();
   const { data } = useGetProjects({ workspaceId });
 
   return (
@@ -20,7 +22,7 @@ export const Projects = () => {
       <div className="flex items-center justify-between">
         <p className="text-xs uppercase text-neutral-500">Projetos</p>
         <RiAddCircleFill
-          onClick={() => {}}
+          onClick={open}
           className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition"
         />
       </div>

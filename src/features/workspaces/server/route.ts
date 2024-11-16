@@ -15,7 +15,7 @@ import {
   WORKSPACES_ID,
 } from "@/config";
 
-import { createWorkspaceSchema, updateWorkspaceSchema } from "../schema";
+import { createWorkspaceSchema, updateWorkspaceSchema } from "../schemas";
 import { Workspace } from "../types";
 
 const app = new Hono()

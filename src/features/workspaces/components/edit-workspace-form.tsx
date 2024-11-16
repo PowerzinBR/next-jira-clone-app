@@ -26,7 +26,7 @@ import { Button } from "@/components/ui/button";
 import { useConfirm } from "@/hooks/use-confirm";
 
 import { Workspace } from "../types";
-import { updateWorkspaceSchema } from "../schema";
+import { updateWorkspaceSchema } from "../schemas";
 import { useUpdateWorkspace } from "../api/use-update-workspace";
 import { useDeleteWorkspace } from "../api/use-delete-workspace";
 import { useResetInviteCode } from "../api/use-reset-invite-code";
