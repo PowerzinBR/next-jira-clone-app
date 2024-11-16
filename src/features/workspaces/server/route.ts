@@ -30,7 +30,7 @@ const app = new Hono()
       DATABASE_ID,
       WORKSPACES_ID,
       [
-        Query.orderDesc("createdAt"),
+        Query.orderDesc("$createdAt"),
         Query.contains("$id", workspacesId)
       ],
     );

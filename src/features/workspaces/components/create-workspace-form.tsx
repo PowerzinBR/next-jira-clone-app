@@ -1,10 +1,11 @@
 "use client";
 
 import { z } from "zod";
-import React, { useRef } from "react";
-import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useRef } from "react";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -29,6 +30,7 @@ interface CreateWorkspaceFormProps {
 }
 
 export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
+  const router = useRouter();
   const { mutate, isPending } = useCreateWorkspace();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -48,9 +50,9 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
     }
 
     mutate({ form: finalValues }, {
-      onSuccess: () => {
+      onSuccess: ({ data }) => {
         form.reset();
-        // TODO: Redirect to new workspace
+        router.push(`/workspaces/${data.$id}`)
       }
     });
   };
