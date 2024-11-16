@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 
 import { CreateWorkspaceForm } from "@/features/workspaces/components/create-workspace-form";
-import { getWorkspaces } from "@/features/workspaces/actions";
-import { getCurrent } from "@/features/auth/actions";
+import { getWorkspaces } from "@/features/workspaces/queries";
+import { getCurrent } from "@/features/auth/queries";
 
 export default async function Home() {
   const user = await getCurrent();
