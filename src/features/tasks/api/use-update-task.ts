@@ -26,6 +26,8 @@ export const useUpdateTask = () => {
     },
     onSuccess: ({ data }) => {
       toast.success("Tarefa editada.");
+      queryClient.invalidateQueries({ queryKey: ["project-analytics"] });
+      queryClient.invalidateQueries({ queryKey: ["workspace-analytics"] });
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["task", data.$id] });
     },

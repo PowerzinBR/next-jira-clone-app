@@ -14,7 +14,7 @@ type RequestType = InferRequestType<
 
 export const useDeleteTask = () => {
   const queryClient = useQueryClient();
-  
+
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async ({ param }) => {
       const response = await client.api.tasks[":taskId"].$delete({ param });
@@ -24,9 +24,13 @@ export const useDeleteTask = () => {
     },
     onSuccess: ({ data }) => {
       toast.success("Tarefa excluída.");
-      
+
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["task", data.$id] });
+      queryClient.invalidateQueries({ queryKey: ["product-analytics"] });
+      queryClient.invalidateQueries({
+        queryKey: ["workspace-analytics"],
+      });
     },
     onError: () => {
       toast.error("Falha ao excluir tarefa");
