@@ -1,4 +1,5 @@
 "use client";
+
 import { Pencil } from "lucide-react";
 import Link from "next/link";
 
@@ -10,15 +11,18 @@ import { PageLoader } from "@/components/page-loader";
 import { PageError } from "@/components/page-error";
 
 import { useProjectId } from "@/features/projects/hooks/use-project-id";
+import { useGetProjectAnalytics } from "@/features/projects/api/use-get-project-analytics";
 import { useGetProject } from "@/features/projects/api/use-get-project";
+import { Analytics } from "@/components/analytics";
 
 export const ProjectIdClient = () => {
 	const projectId = useProjectId();
+	const { data: analytics, isLoading: analyticsLoading } = useGetProjectAnalytics({ projectId })
 	const { data: project, isLoading: projectsLoading } = useGetProject({
 		projectId,
 	});
 
-  const isLoading = projectsLoading;
+  const isLoading = projectsLoading || analyticsLoading;
 
 	if (isLoading) return <PageLoader />;
 	if (!project) return <PageError />;
@@ -43,6 +47,9 @@ export const ProjectIdClient = () => {
 					</Link>
 				</Button>
 			</div>
+			{analytics ? (
+				<Analytics data={analytics} />
+			) : null}
 			<TaskViewSwitcher hideProjectFilter />
 		</div>
 	);
