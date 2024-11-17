@@ -157,7 +157,7 @@ export const DataKanban = ({ data, onChange }: DataKanbanProps) => {
         {boards.map((board) => (
           <div
             key={board}
-            className="flex-1 mx-2 bg-muted-foreground/20 p-1.5 rounded-md min-w-[200px]"
+            className="flex-1 mx-2 bg-muted-foreground/10 p-1.5 rounded-md min-w-[200px]"
           >
             <KanbanColumnHeader board={board} taskCount={tasks[board].length} />
             <Droppable key={board} droppableId={board}>

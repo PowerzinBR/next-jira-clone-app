@@ -37,7 +37,8 @@ export const KanbanCard = ({ task }: KanbanCardProps) => {
           image={task.project.imageUrl}
           fallbackClassName="text-[10px]"
         />
-        <span className="text-xs font-medium truncate">{task.project.name}</span>
+        <div className="size-1 rounded-full bg-neutral-300" />
+        <span className="text-xs font-semibold truncate line-clamp-2">{task.project.name}</span>
       </div>
     </div>
   );
