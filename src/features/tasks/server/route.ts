@@ -10,7 +10,7 @@ import { createAdminClient } from "@/lib/appwrite";
 import { sessionMiddleware } from "@/lib/session-middleware";
 import { DATABASE_ID, TASKS_ID, PROJECTS_ID, MEMBERS_ID } from "@/config";
 
-import { createTaskSchema } from "../schema";
+import { createTaskSchema } from "../schemas";
 import { TaskStatus } from "../types";
 
 const app = new Hono()
