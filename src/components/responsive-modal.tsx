@@ -1,5 +1,4 @@
 import { useMedia } from "react-use";
-import { PropsWithChildren } from "react";
 
 import { 
   Dialog, 

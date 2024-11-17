@@ -1,7 +1,7 @@
 import { client } from "@/lib/rpc";
 import { useQuery } from "@tanstack/react-query";
 
-import { Task, TaskStatus } from "../types";
+import { TaskStatus } from "../types";
 
 // interface GetTasksResponse {
 //   documents: Task[];

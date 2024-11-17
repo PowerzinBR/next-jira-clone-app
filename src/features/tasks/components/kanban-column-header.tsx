@@ -7,7 +7,6 @@ import {
   CircleIcon,
 } from "lucide-react";
 
-import { snakeCaseToTitleCase } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 import { TaskStatus } from "../types";
