@@ -14,6 +14,14 @@ import { MemberAvatar } from "@/features/members/components/members-avatar";
 import { TaskActions } from "./task-actions";
 import { TaskDate } from "./task-date";
 
+const statusTranslation = {
+  BACKLOG: "Atraso",
+  TODO: "A Fazer",
+  IN_PROGRESS: "Em Progresso",
+  IN_REVIEW: "Em Revisão",
+  DONE: "Concluído",
+};
+
 export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "name",
@@ -120,7 +128,8 @@ export const columns: ColumnDef<Task>[] = [
     },
     cell: ({ row }) => {
       const status = row.original.status;
-      return <Badge variant={status}>{snakeCaseToTitleCase(status)}</Badge>;
+      const translatedStatus = statusTranslation[status] || status;
+      return <Badge variant={status}>{snakeCaseToTitleCase(translatedStatus)}</Badge>;
     },
   },
   {

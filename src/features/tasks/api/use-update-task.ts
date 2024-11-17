@@ -1,38 +1,36 @@
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType, InferResponseType } from "hono";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { client } from "@/lib/rpc";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.tasks)[":taskId"]["$delete"],
+  (typeof client.api.tasks)[":taskId"]["$patch"],
   200
 >;
 type RequestType = InferRequestType<
-  (typeof client.api.tasks)[":taskId"]["$delete"]
+  (typeof client.api.tasks)[":taskId"]["$patch"]
 >;
 
-export const useDeleteTask = () => {
-  const router = useRouter();
+export const useUpdateTask = () => {
   const queryClient = useQueryClient();
-  
   const mutation = useMutation<ResponseType, Error, RequestType>({
-    mutationFn: async ({ param }) => {
-      const response = await client.api.tasks[":taskId"].$delete({ param });
-      if (!response.ok) throw new Error("Failed to create task");
+    mutationFn: async ({ json, param }) => {
+      const response = await client.api.tasks[":taskId"].$patch({
+        json,
+        param,
+      });
+      if (!response.ok) throw new Error("Failed to update task");
 
       return await response.json();
     },
     onSuccess: ({ data }) => {
-      toast.success("Tarefa excluída.");
-      
-      router.refresh();
+      toast.success("Tarefa editada.");
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       queryClient.invalidateQueries({ queryKey: ["task", data.$id] });
     },
     onError: () => {
-      toast.error("Falha ao excluir tarefa");
+      toast.error("Falha ao editar tarefa");
     },
   });
 

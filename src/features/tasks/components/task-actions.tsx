@@ -1,3 +1,5 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 import { ExternalLinkIcon, PencilIcon, TrashIcon } from "lucide-react";
 
@@ -8,10 +10,11 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useConfirm } from "@/hooks/use-confirm";
+
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 
-// import { useDeleteTask } from "../api/use-delete-task";
-// import { useEditTaskModal } from "../hooks/use-update-task-modal";
+import { useDeleteTask } from "../api/use-delete-task";
+import { useUpdateTaskModal } from "../hooks/use-update-task-modal";
 
 interface TaskActionsProps {
 	id: string;
@@ -22,7 +25,7 @@ interface TaskActionsProps {
 export const TaskActions = ({ children, id, projectId }: TaskActionsProps) => {
 	const router = useRouter();
 	const workspaceId = useWorkspaceId();
-	const { open } = useEditTaskModal();
+	const { open } = useUpdateTaskModal();
 	const [ConfirmDialog, confirm] = useConfirm(
 		"Excluir tarefa",
 		"Esta ação é irreversível e vai excluir qualquer informação associada",
