@@ -23,7 +23,11 @@ import { DataKanban } from "./data-kanban";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 
-export const TaskViewSwitcher = () => {
+interface TaskViewSwitcherProps {
+  hideProjectFilter?: boolean;
+}
+
+export const TaskViewSwitcher = ({ hideProjectFilter }: TaskViewSwitcherProps) => {
   const [{ status, dueDate, assigneeId, projectId }] = useTaskFilter();
   const [view, setView] = useQueryState("task-view", {
     defaultValue: "table",
