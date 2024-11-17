@@ -11,7 +11,7 @@ import { sessionMiddleware } from "@/lib/session-middleware";
 import { DATABASE_ID, TASKS_ID, PROJECTS_ID, MEMBERS_ID } from "@/config";
 
 import { createTaskSchema } from "../schemas";
-import { TaskStatus } from "../types";
+import { Task, TaskStatus } from "../types";
 
 const app = new Hono()
   .post(
@@ -34,7 +34,7 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
-      const highestPositionTask = await databases.listDocuments(
+      const highestPositionTask = await databases.listDocuments<Task>(
         DATABASE_ID,
         TASKS_ID,
         [
@@ -50,7 +50,7 @@ const app = new Hono()
           ? highestPositionTask.documents[0].position + 1000
           : 1000;
 
-      const task = await databases.createDocument(
+      const task = await databases.createDocument<Task>(
         DATABASE_ID,
         TASKS_ID,
         ID.unique(),
@@ -128,7 +128,11 @@ const app = new Hono()
         query.push(Query.search("name", search));
       }
 
-      const tasks = await databases.listDocuments(DATABASE_ID, TASKS_ID, query);
+      const tasks = await databases.listDocuments<Task>(
+        DATABASE_ID,
+        TASKS_ID,
+        query
+      );
 
       const projectIds = tasks.documents.map((task) => task.projectId);
       const assigneeIds = tasks.documents.map((task) => task.assigneeId);
