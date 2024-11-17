@@ -9,7 +9,7 @@ type ResponseType = InferResponseType<typeof client.api.workspaces[":workspaceId
 type RequestType = InferRequestType<typeof client.api.workspaces[":workspaceId"]["$patch"]>;
 
 export const useUpdateWorkspace = () => {
-  const router = useRouter
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
@@ -19,7 +19,7 @@ export const useUpdateWorkspace = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create workspace");
+        throw new Error("Failed to update workspace");
       }
 
       return await response.json();
@@ -32,7 +32,7 @@ export const useUpdateWorkspace = () => {
       queryClient.invalidateQueries({ queryKey: ["workspace", data.$id] });
     },
     onError: () => {
-      toast.error("Falha ao criar espaço de trabalho.");
+      toast.error("Falha ao editar espaço de trabalho.");
     },
   });
 

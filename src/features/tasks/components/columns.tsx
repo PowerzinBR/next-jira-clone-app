@@ -3,7 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreVerticalIcon } from "lucide-react";
 
-import { snakeCaseToTitleCase } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Task } from "@/features/tasks/types";
@@ -129,7 +128,7 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => {
       const status = row.original.status;
       const translatedStatus = statusTranslation[status] || status;
-      return <Badge variant={status}>{snakeCaseToTitleCase(translatedStatus)}</Badge>;
+      return <Badge variant={status}>{translatedStatus}</Badge>;
     },
   },
   {

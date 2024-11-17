@@ -25,8 +25,9 @@ export const useCreateProject = () => {
       toast.success("Projeto criado.");
       queryClient.invalidateQueries({ queryKey: ["projects"] });
     },
-    onError: () => {
-      toast.error("Falha ao criar projeto.");
+    onError: ({ message }) => {
+      console.log(message);
+      // toast.error("Falha ao criar projeto.");
     },
   });
 
