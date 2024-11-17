@@ -2,7 +2,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./data-calendar.css";
 
 import { useState } from "react";
-import { ptBR, enUS } from "date-fns/locale";
+import { ptBR } from "date-fns/locale";
 import { CalendarIcon, ChevronLeft, ChevronRight } from "lucide-react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 
@@ -21,7 +21,7 @@ import { EventCard } from "./event-card";
 import { Task } from "../types";
 
 const locales = {
-  "pt-BR": ptBR,
+  "en-US": ptBR,
 };
 
 const localizer = dateFnsLocalizer({

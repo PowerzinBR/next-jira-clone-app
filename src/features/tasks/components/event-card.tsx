@@ -9,7 +9,7 @@ import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 
 import { cn } from "@/lib/utils";
 
-import { TaskStatus, TaskStatusTranslations } from "../types";
+import { TaskStatus } from "../types";
 
 interface EventCardProps {
   id: string;

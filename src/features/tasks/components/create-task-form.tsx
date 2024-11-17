@@ -161,7 +161,7 @@ export const CreateTaskForm = ({
                       </FormControl>
                       <FormMessage />
                       <SelectContent>
-                        {Object.entries(TaskStatus).map(([key, value]) => (
+                        {Object.entries(TaskStatus).map(([value]) => (
                           <SelectItem key={value} value={value.toUpperCase()}>
                             {TaskStatusTranslations[value] || value}
                           </SelectItem>
