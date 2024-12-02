@@ -24,6 +24,6 @@ NEXT_APPWRITE_KEY=
 Go to https://appwrite.io and create a project, then get your secret keys. **Do not share any of your secret keys as this could result in danger for your project.**
 
 ## Additional information
-This project is **not** completed, and it's in Portuguese language. <br />
+This project **IS** completed, and it's in Portuguese language. <br />
 
 Please translate it and if you have any issues with the application, create an issue an i will try to help. The project uses **bun**, **react**, **next.js**, **tanstack react query**, **hono**, **node-appwrite** and much more. It also uses https://ui.shadcn.com as a **component library**.
